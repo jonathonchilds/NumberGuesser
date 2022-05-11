@@ -7,28 +7,27 @@ namespace NumberGuesser
     {
         static void Main(string[] args)
         {
-            //do
-            //{
-            var numberRangeMaximum = Greeting();
-            var numberRangeMinimum = 0;
-            var systemGuess = (numberRangeMaximum + numberRangeMinimum) / 2;
-            Console.WriteLine();
-            maxGuessesCalculator(ref numberRangeMaximum, ref numberRangeMinimum);
-            Console.WriteLine();
-            Console.WriteLine($@"Is your number {systemGuess}?");
-            Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            var userResponse = Console.ReadLine();
-            Console.ResetColor();
-            Console.WriteLine();
-            ResponseLoop(ref numberRangeMaximum, ref numberRangeMinimum, ref systemGuess, ref userResponse);
-            Console.WriteLine("Do you want to play again?");
-            //}
-            //while (guessHigherResponses.Contains(Console.ReadLine()));
-
+            Greeting();
+            var restart = "yes";
+            while (restart == "yes")
+            {
+                var guessCount = new List<int>();
+                var maximum = MaxGuessesCalculator();
+                var counter = NumberGuesserLoop(ref maximum);
+                guessCount.Add(counter);
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Type \"yes\" to play again!");
+                Console.WriteLine();
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                restart = Console.ReadLine().ToLower();
+                Console.ResetColor();
+                Console.WriteLine();
+            }
+            ExitMessage();
         }
 
-        static int Greeting()
+        static void Greeting()
         {
             Console.WriteLine("\n");
             Console.WriteLine("**************************************************************************************", Console.ForegroundColor = ConsoleColor.DarkMagenta);
@@ -54,60 +53,70 @@ namespace NumberGuesser
             Console.WriteLine("Do not enter your number! Keep it in your head!", Console.ForegroundColor = ConsoleColor.Yellow);
             Console.ResetColor();
             Console.WriteLine();
+        }
+
+        public static int MaxGuessesCalculator()
+        {
             Console.WriteLine("Please type any number that is HIGHER than the number you've picked:");
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Cyan;
-            var initialMaximum = Console.ReadLine();
+            int maximum = int.Parse(Console.ReadLine());
             Console.ResetColor();
-            return int.Parse(initialMaximum);
-        }
-
-        static void maxGuessesCalculator(ref int numberRangeMaximum, ref int numberRangeMinimum)
-        {
-            var maxGuesses = Math.Round(Math.Log2((numberRangeMaximum - numberRangeMinimum)) + 1);
+            int minimum = 0;
+            double maxGuesses = Math.Round(Math.Log2((maximum - minimum)) + 1);
             Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine();
             Console.WriteLine($"This will only take me {maxGuesses} guesses to figure out, at most!");
             Console.WriteLine("Now tell me if I'm correct, or if I need to guess higher or lower.");
             Console.ResetColor();
-
+            return maximum;
         }
 
-        static void ResponseLoop(ref int numberRangeMaximum, ref int numberRangeMinimum, ref int systemGuess, ref string userResponse)
+        static int NumberGuesserLoop(ref int maximum)
         {
-            // would love to import a text file containing every possible "yes" response; or, perhaps, just add radio buttons. That would be was easier. But the text file idea could apply for something like voice recognition
-            var affirmativeUserResponse = new List<string>() { "y", "Y", "Yes", "yes", "yes!", "YES", "yasss", "YAS", "YUS", "yup", "yuppp", "yep", "Yeah", "Yep", "yers", "yEs" };
-            var guessLowerResponses = new List<string>() { "l", "L", "Lower", "lower", "LOWER" };
-            var guessHigherResponses = new List<string>() { "h", "H", "higher", "Higher", "HIGHER" };
+
+            var higher = new List<string> { "h", "H", "higher", "Higher", "HIGHER" };
+            var lower = new List<string> { "l", "L", "Lower", "lower", "LOWER" };
+            var yes = new List<string> { "y", "Y", "Yes", "yes", "yes!", "YES", "yasss", "YAS", "YUS", "yup", "yuppp", "yep", "Yeah", "Yep", "yers", "yEs" };
+
+            var minimum = 0;
+            var guess = (maximum + minimum) / 2;
+            Console.WriteLine();
+            Console.WriteLine($"Is your number {guess}? ");
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            var userResponse = Console.ReadLine();
+            Console.ResetColor();
 
             int counter = 1;
-
-            while (!affirmativeUserResponse.Contains(userResponse))
+            while (!yes.Contains(userResponse))
             {
-                if (guessHigherResponses.Contains(userResponse))
+                if (higher.Contains(userResponse))
                 {
                     counter++;
-                    numberRangeMinimum = systemGuess;
-                    systemGuess = (numberRangeMaximum + numberRangeMinimum) / 2;
-                    Console.WriteLine($"Is your number {systemGuess}?");
+                    minimum = guess;
+                    guess = (maximum + minimum) / 2;
+                    Console.WriteLine();
+                    Console.WriteLine($"Is your number {guess}?");
                     Console.WriteLine();
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     userResponse = Console.ReadLine();
                     Console.ResetColor();
                     Console.WriteLine();
                 }
-                else if (guessLowerResponses.Contains(userResponse))
+                else if (lower.Contains(userResponse))
                 {
                     counter++;
-                    numberRangeMaximum = systemGuess;
-                    systemGuess = (numberRangeMaximum + numberRangeMinimum) / 2;
-                    Console.WriteLine($"Is your number {systemGuess}?");
+                    maximum = guess;
+                    guess = (maximum + minimum) / 2;
+                    Console.WriteLine($"Is your number {guess}?");
                     Console.WriteLine();
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     userResponse = Console.ReadLine();
                     Console.ResetColor();
                     Console.WriteLine();
                 }
-                else if (!guessLowerResponses.Contains(userResponse) || !guessHigherResponses.Contains(userResponse))
+                else if (!lower.Contains(userResponse) || !higher.Contains(userResponse))
                 {
                     Console.WriteLine();
                     Console.WriteLine("Please enter an acceptable response. (Tell me if I'm correct, or whether I need guess higher or lower.) ", Console.ForegroundColor = ConsoleColor.Red);
@@ -121,22 +130,34 @@ namespace NumberGuesser
             }
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine();
             Console.WriteLine("**************************************************************************************", Console.ForegroundColor = ConsoleColor.DarkMagenta);
             Console.ResetColor();
-            Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine(counter + " guesses!!! I'm sure you could do this too (but likely not as quickly). ;-) ", Console.ForegroundColor = ConsoleColor.DarkGreen);
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine();
             Console.WriteLine("**************************************************************************************", Console.ForegroundColor = ConsoleColor.DarkMagenta);
             Console.ResetColor();
+            Console.WriteLine();
+            Console.WriteLine();
+
+            return counter;
+        }
+
+        public static void ExitMessage()
+        {
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Thanks for playing!");
+            Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
 
         }
+
     }
 }
+
