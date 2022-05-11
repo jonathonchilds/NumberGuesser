@@ -7,6 +7,8 @@ namespace NumberGuesser
     {
         static void Main(string[] args)
         {
+            //do
+            //{
             var numberRangeMaximum = Greeting();
             var numberRangeMinimum = 0;
             var systemGuess = (numberRangeMaximum + numberRangeMinimum) / 2;
@@ -20,6 +22,10 @@ namespace NumberGuesser
             Console.ResetColor();
             Console.WriteLine();
             ResponseLoop(ref numberRangeMaximum, ref numberRangeMinimum, ref systemGuess, ref userResponse);
+            Console.WriteLine("Do you want to play again?");
+            //}
+            //while (guessHigherResponses.Contains(Console.ReadLine()));
+
         }
 
         static int Greeting()
@@ -70,14 +76,14 @@ namespace NumberGuesser
         {
             // would love to import a text file containing every possible "yes" response; or, perhaps, just add radio buttons. That would be was easier. But the text file idea could apply for something like voice recognition
             var affirmativeUserResponse = new List<string>() { "y", "Y", "Yes", "yes", "yes!", "YES", "yasss", "YAS", "YUS", "yup", "yuppp", "yep", "Yeah", "Yep", "yers", "yEs" };
-            var List_Of_Possible_Responses_For_Guess_Lower = new List<string>() { "l", "L", "Lower", "lower", "LOWER" };
-            var List_Of_Possible_Responses_For_Guess_Higher = new List<string>() { "h", "H", "higher", "Higher", "HIGHER" };
+            var guessLowerResponses = new List<string>() { "l", "L", "Lower", "lower", "LOWER" };
+            var guessHigherResponses = new List<string>() { "h", "H", "higher", "Higher", "HIGHER" };
 
             int counter = 1;
 
             while (!affirmativeUserResponse.Contains(userResponse))
             {
-                if (List_Of_Possible_Responses_For_Guess_Higher.Contains(userResponse))
+                if (guessHigherResponses.Contains(userResponse))
                 {
                     counter++;
                     numberRangeMinimum = systemGuess;
@@ -89,7 +95,7 @@ namespace NumberGuesser
                     Console.ResetColor();
                     Console.WriteLine();
                 }
-                else if (List_Of_Possible_Responses_For_Guess_Lower.Contains(userResponse))
+                else if (guessLowerResponses.Contains(userResponse))
                 {
                     counter++;
                     numberRangeMaximum = systemGuess;
@@ -101,7 +107,7 @@ namespace NumberGuesser
                     Console.ResetColor();
                     Console.WriteLine();
                 }
-                else if (!List_Of_Possible_Responses_For_Guess_Lower.Contains(userResponse) || !List_Of_Possible_Responses_For_Guess_Higher.Contains(userResponse))
+                else if (!guessLowerResponses.Contains(userResponse) || !guessHigherResponses.Contains(userResponse))
                 {
                     Console.WriteLine();
                     Console.WriteLine("Please enter an acceptable response. (Tell me if I'm correct, or whether I need guess higher or lower.) ", Console.ForegroundColor = ConsoleColor.Red);
@@ -130,6 +136,7 @@ namespace NumberGuesser
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
+
         }
     }
 }
