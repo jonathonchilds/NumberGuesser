@@ -7,7 +7,7 @@ namespace NumberGuesser
     {
         static void Main(string[] args)
         {
-            var numberRangeMaximum = int.Parse(Greeting());     //CHANGE TO TRYPARSE
+            var numberRangeMaximum = int.Parse(Greeting());
             var numberRangeMinimum = 0;
             var systemGuess = (numberRangeMaximum + numberRangeMinimum) / 2;
             Console.WriteLine();
@@ -24,13 +24,15 @@ namespace NumberGuesser
             Console.WriteLine("\n");
             Console.WriteLine("**************************************************************************************");
             Console.WriteLine("**************************************************************************************");
-            Console.WriteLine("                      WELCOME TO THE ALMIGHTY NUMBER GUESSER!                          ");
+            Console.WriteLine("                      WELCOME TO THE ALMIGHTY NUMBER GUESSER!                          ", Console.ForegroundColor = ConsoleColor.DarkGreen);
+            Console.ResetColor();
             Console.WriteLine("**************************************************************************************");
             Console.WriteLine("**************************************************************************************");
             Console.WriteLine("\n");
             Console.WriteLine("Hello!");
             Console.WriteLine();
-            Console.WriteLine("My goal is to guess a number that you have chosen in your mind.");
+            Console.WriteLine("My goal is to guess a number that you have chosen in your mind.", Console.ForegroundColor = ConsoleColor.Magenta);
+            Console.ResetColor();
             Console.WriteLine();
             Console.WriteLine("You may pick any whole number you'd like.");
             Console.WriteLine();
@@ -82,7 +84,7 @@ namespace NumberGuesser
                 {
 
                     Console.WriteLine("Please enter an acceptable response: tell me if I'm correct, or whether I need guess higher or lower. ", Console.ForegroundColor = ConsoleColor.Red);
-
+                    Console.ResetColor();
                     Console.WriteLine();
                     userResponse = Console.ReadLine();
                     Console.WriteLine();
