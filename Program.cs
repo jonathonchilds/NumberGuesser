@@ -57,7 +57,7 @@ namespace NumberGuesser
             Console.WriteLine();
         }
 
-        public static int MaxGuessesCalculator()
+        static int MaxGuessesCalculator()
         {
             Console.WriteLine("Please type any number that is HIGHER than the number you've picked:");
             Console.WriteLine();
@@ -147,12 +147,14 @@ namespace NumberGuesser
             return counter;
         }
 
-        public static void ExitMessage(ref double averageGuesses)
+        static void ExitMessage(ref double averageGuesses)
         {
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine();
             Console.WriteLine($"I averaged {averageGuesses} guesses!");
             Console.ResetColor();
+            Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Green;
