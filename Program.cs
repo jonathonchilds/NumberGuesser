@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NumberGuesser
 {
@@ -8,10 +9,10 @@ namespace NumberGuesser
         static void Main(string[] args)
         {
             Greeting();
+            var guessCount = new List<int>();
             var restart = "yes";
             while (restart == "yes")
             {
-                var guessCount = new List<int>();
                 var maximum = MaxGuessesCalculator();
                 var counter = NumberGuesserLoop(ref maximum);
                 guessCount.Add(counter);
@@ -24,7 +25,8 @@ namespace NumberGuesser
                 Console.ResetColor();
                 Console.WriteLine();
             }
-            ExitMessage();
+            var averageGuesses = guessCount.Average();
+            ExitMessage(ref averageGuesses);
         }
 
         static void Greeting()
@@ -145,8 +147,12 @@ namespace NumberGuesser
             return counter;
         }
 
-        public static void ExitMessage()
+        public static void ExitMessage(ref double averageGuesses)
         {
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"I averaged {averageGuesses} guesses!");
+            Console.ResetColor();
             Console.WriteLine();
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Green;
